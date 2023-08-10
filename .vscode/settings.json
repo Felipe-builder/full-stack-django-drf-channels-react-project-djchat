@@ -1,0 +1,9 @@
+{
+  "editor.defaultFormmatter": null,
+  "editor.formatOnSave": true,
+  "[python]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  }
+}
