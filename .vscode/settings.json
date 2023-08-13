@@ -5,5 +5,14 @@
     "editor.codeActionsOnSave": {
       "source.organizeImports": true
     }
+  },
+  "sqltools.connections": [{
+    "previewLimit": 50,
+    "driver": "SQLite",
+    "name": "python_fullStack",
+    "database": "${workspaceFolder:full-stack-django-drf-channels-react-project-djchat}/djchat/db.sqlite3",
+    "group": "python"
   }
+],
+"sqltools.useNodeRuntime": true
 }
