@@ -1,9 +1,11 @@
 from django.db.models import Count
+from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from rest_framework.exceptions import AuthenticationFailed, ValidationError
 from rest_framework.response import Response
 
-from .models import Server
+from .models import Category, Server
+from .schema import server_list_docs
 from .serializer import ServerSerializer
 
 
@@ -13,7 +15,41 @@ class ServerListViewSet(viewsets.ViewSet):
     queryset = Server.objects.all()
 
     # Método para listar servidores com base nos parâmetros de consulta
+    @server_list_docs
     def list(self, request):
+        """Lista servidores com base nos parâmetros de consulta.
+
+        Esta função lida com a listagem de servidores com base em parâmetros fornecidos na URL da `requisição`.
+
+        - `category`: Filtrando servidores por categoria se o parâmetro estiver presente
+        - `by_user`: Filtrando servidores pelo ID do usuário se a opção for selecionada
+        - `qty`: Limitando o número de servidores de acordo com o valor qty
+        - `by_serverid`: Filtrando servidor pelo ID do servidor se a opção for selecionada
+        - `with_num_members`: Anotando o número de membros se a opção for selecionada
+
+
+        Args:
+            request (HttpRequest): O objeto de solicitação HTTP.
+
+        Returns:
+            Response: Uma resposta contendo os dados serializados dos servidores.
+
+        Raises:
+            AuthenticationFailed: Se a autenticação falhar ao filtrar por usuário ou ID do servidor.
+            ValidationError: Se ocorrer um erro de validação durante o processo de filtragem.
+
+        Examples:
+        Para recuperar todos os servidores na categoria 'jogos' com pelo menos 5 membros, você pode fazer
+        a seguinte solicitação:
+
+            GET /servers/?category=gaming&with_num_members=true&num_members_gte=5
+
+        Para recuperar os 10 primeiros servidores dos quais o usuário autenticado é membro, você pode fazer
+        a seguinte solicitação:
+
+            GET /servers/?by_user=true&qty=10
+
+        """
         # Obtendo parâmetros de consulta da URL
         category = request.query_params.get("category")
         qty = request.query_params.get("qty")
@@ -21,29 +57,30 @@ class ServerListViewSet(viewsets.ViewSet):
         by_serverid = request.query_params.get("by_serverid")
         with_num_members = request.query_params.get("with_num_members") == "true"
 
-        # Verificando autenticação se a listagem é filtrada por usuário ou ID do servidor
-        if by_user or by_serverid and not request.user.is_authenticated:
-            raise AuthenticationFailed
+        # if by_user or by_serverid and not request.user.is_authenticated:
+        #     raise AuthenticationFailed
 
-        # Filtrando servidores por categoria se o parâmetro estiver presente
         if category:
-            self.queryset = self.queryset.filter(category_name=category)
+            category_obj = get_object_or_404(Category, name=category)
+            self.queryset = self.queryset.filter(category=category_obj)
 
-        # Filtrando servidores pelo ID do usuário se a opção for selecionada
         if by_user:
-            user_id = request.user.id
-            self.queryset = self.queryset.filter(member=user_id)
+            if by_user and request.user.is_authenticated:
+                user_id = request.user.id
+                self.queryset = self.queryset.filter(member=user_id)
+            else:
+                raise AuthenticationFailed()
 
-        # Anotando o número de membros se a opção for selecionada
         if with_num_members:
             self.queryset = self.queryset.annotate(num_members=Count("member"))
 
-        # Limitando o número de servidores de acordo com o valor qty
         if qty:
             self.queryset = self.queryset[: int(qty)]
 
-        # Filtrando servidor pelo ID do servidor se a opção for selecionada
         if by_serverid:
+            if not request.user.is_authenticated:
+                raise AuthenticationFailed()
+
             try:
                 self.queryset = self.queryset.filter(id=by_serverid)
                 if not self.queryset.exists():
