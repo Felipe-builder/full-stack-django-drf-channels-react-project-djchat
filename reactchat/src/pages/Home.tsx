@@ -1,6 +1,7 @@
 import { Box, CssBaseline } from "@mui/material";
 import PrimaryAppBar from "./templates/PrimaryAppBar";
 import PrimaryDraw from "./templates/PrimaryDraw";
+import SecondaryDraw from "./templates/SecondaryDraw";
 
 const Home = () => {
   return (
@@ -11,7 +12,7 @@ const Home = () => {
         <CssBaseline />
         <PrimaryAppBar />
         <PrimaryDraw></PrimaryDraw>
-        Home
+        <SecondaryDraw></SecondaryDraw>
       </Box>
     </>
   )
