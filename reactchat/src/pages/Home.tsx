@@ -1,8 +1,14 @@
+import { Box, CssBaseline } from "@mui/material";
+
 const Home = () => {
   return (
     <>
-      <p>home</p>
-      <p>home</p>
+      <Box sx={{
+        display: "flex"
+      }}>
+        <CssBaseline />
+        Home
+      </Box>
     </>
   )
 }
