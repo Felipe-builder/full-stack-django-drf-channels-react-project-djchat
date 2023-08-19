@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     # External
     "drf_spectacular",
     "rest_framework",
+    "corsheaders",
     # Internal
     "account",
     "server",
@@ -47,6 +48,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    # "django.middleware.common.CommonMiddleware",
 ]
 
 ROOT_URLCONF = "djchat.urls"
@@ -141,3 +144,7 @@ SPECTACULAR_SETTINGS = {
     "SERVE_INCLUDE_SCHEMA": True,
     # OTHER SETTINGS
 }
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
