@@ -1,4 +1,5 @@
 import { Box, CssBaseline } from "@mui/material";
+import PrimaryAppBar from "./templates/PrimaryAppBar";
 
 const Home = () => {
   return (
@@ -7,6 +8,7 @@ const Home = () => {
         display: "flex"
       }}>
         <CssBaseline />
+        <PrimaryAppBar />
         Home
       </Box>
     </>
