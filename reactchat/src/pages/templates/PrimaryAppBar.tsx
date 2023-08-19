@@ -1,7 +1,10 @@
 import { AppBar, Box, Drawer, IconButton, Link, Toolbar, Typography, useMediaQuery } from "@mui/material";
-import { useTheme } from "@emotion/react";
+import { useTheme } from "@mui/material/styles"
+
 import MenuIcon from '@mui/icons-material/Menu'
 import React, { useEffect, useState } from "react";
+
+
 const PrimaryAppBar = () => {
   const [sideMenu, setSideMenu] = useState(false)
   const theme = useTheme();
@@ -13,7 +16,7 @@ const PrimaryAppBar = () => {
       setSideMenu(false)
     }
   }, [isSmallScreen]);
-
+  
   const toggleDrawer = (open: boolean) =>  (event: React.KeyboardEvent | React.MouseEvent) => {
     if (
       event.type === 'keydown' &&
