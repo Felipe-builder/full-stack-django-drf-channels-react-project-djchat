@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import axios, { AxiosInstance } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../config';

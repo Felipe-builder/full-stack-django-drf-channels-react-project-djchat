@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import useAxiosWithInterceptor from "../helpers/jwtinterceptor";
 import { BASE_URL } from "../config";
 import { useState } from "react";
@@ -18,6 +19,7 @@ const useCrud = <T> (initialData: T[],apiURL: string): IuseCrud<T> => {
   const fetchData = async () => {
     setIsLoading(true);
       try {
+        // await new Promise(resolve => setTimeout(resolve, 5000))
         const response = await jwtAxios.get(`${BASE_URL}/${apiURL}`, {});
         const data = response.data;
         setDataCRUD(data);

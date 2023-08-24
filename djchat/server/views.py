@@ -14,7 +14,7 @@ from .serializer import ServerSerializer
 class ServerListViewSet(viewsets.ViewSet):
     # Definindo o conjunto de dados a partir do modelo Server
     queryset = Server.objects.all()
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     # Método para listar servidores com base nos parâmetros de consulta
     @server_list_docs

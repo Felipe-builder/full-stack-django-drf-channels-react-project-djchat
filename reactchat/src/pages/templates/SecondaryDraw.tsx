@@ -1,21 +1,21 @@
 import { Box, Typography } from "@mui/material"
 import { useTheme } from "@mui/material/styles"
-import { BASE_URL } from '../../config';
+// import { BASE_URL } from '../../config';
 
-import useAxiosWithInterceptor from "../../helpers/jwtinterceptor";
+// import useAxiosWithInterceptor from "../../helpers/jwtinterceptor";
 
 
 const SecondaryDraw = () => {
   const theme = useTheme();
-  const jwtAxios = useAxiosWithInterceptor()
+  // const jwtAxios = useAxiosWithInterceptor()
 
-  jwtAxios
-    .get(BASE_URL+'/server/select/?category=Programa%C3%A7%C3%A3o')
-    .then(response => {
-      console.log(response.data)
-    }).catch(error => {
-      console.log(error)
-    })
+  // jwtAxios
+  //   .get(BASE_URL+'/server/select/?category=Programa%C3%A7%C3%A3o')
+  //   .then(response => {
+  //     console.log(response.data)
+  //   }).catch(error => {
+  //     console.log(error)
+  //   })
 
   return (
     <Box
