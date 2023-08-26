@@ -33,6 +33,10 @@ export const createMuiTheme = () => {
   let theme = createTheme({
     typography: {
       fontFamily: ['IBM Plex Sans', 'sans-serif'].join(","),
+      body1: {
+        fontWeight: 500,
+        letterSpacing: '-0.5px'
+      },
     },
     primaryAppBar: {
       height: 50,
