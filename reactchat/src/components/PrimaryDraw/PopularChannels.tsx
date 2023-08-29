@@ -83,7 +83,7 @@ const PopularChannels: React.FC<Props> = ({ open }) => {
                 <ListItemAvatar
                   sx={{ minWidth: '50px' }}
                 >
-                  <Avatar alt='Server Icon' src={`${MEDIA_URL}/${item.icon}`}></Avatar>
+                  <Avatar alt='Server Icon' src={`${MEDIA_URL}${item.icon}`}></Avatar>
                 </ListItemAvatar>
 
               </ListItemIcon>

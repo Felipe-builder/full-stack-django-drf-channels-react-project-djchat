@@ -1,4 +1,4 @@
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets
@@ -73,7 +73,9 @@ class ServerListViewSet(viewsets.ViewSet):
         #     raise AuthenticationFailed
 
         if category:
-            category_obj = get_object_or_404(Category, name=category)
+            category_obj = get_object_or_404(Category, name__contains=category)
+            # category_obj = get_object_or_404(Category, name=category)
+            print(category_obj)
             self.queryset = self.queryset.filter(category=category_obj)
 
         if by_user:

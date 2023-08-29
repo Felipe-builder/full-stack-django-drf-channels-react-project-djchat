@@ -14,7 +14,7 @@ interface Category {
 const ExploreCategories = () => {
   const theme = useTheme();
 
-  const { dataCRUD, error, isLoading, fetchData } = useCrud<Category>([], "server/select/");
+  const { dataCRUD, error, isLoading, fetchData } = useCrud<Category>([], "server/category/");
 
   useEffect(() => {
     fetchData();
@@ -58,7 +58,7 @@ const ExploreCategories = () => {
                 >
                   <ListItemAvatar sx={{minWidth: '0px'}}>
                     <img 
-                      src={`${MEDIA_URL}/${item.icon}`} 
+                      src={`${MEDIA_URL}${item.icon}`} 
                       alt="server Icon" 
                       style={{
                         width: '25px',

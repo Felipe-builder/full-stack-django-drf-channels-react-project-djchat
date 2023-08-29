@@ -1,0 +1,21 @@
+{
+  "configurations": [
+    {
+      "name": "Python: Django",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/djchat/manage.py",
+      "args": [
+          "runserver"
+      ],
+      "django": true
+  },
+    {
+      "name": "Python: File",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "justMyCode": true
+    }
+  ]
+}
