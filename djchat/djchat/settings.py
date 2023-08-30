@@ -145,6 +145,9 @@ SPECTACULAR_SETTINGS = {
     # OTHER SETTINGS
 }
 
+# CORS_ALLOW_ALL_ORIGINS = False  # Por padrão, não permitir todas as origens
+
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
 ]
