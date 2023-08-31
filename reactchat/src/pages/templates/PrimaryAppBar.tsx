@@ -4,6 +4,7 @@ import { useTheme } from "@mui/material/styles"
 import MenuIcon from '@mui/icons-material/Menu'
 import React, { useEffect, useState } from "react";
 import ExploreCategories from "../../components/SecondaryDraw/ExploreCategories";
+import AccountButton from "../../components/PrimaryAppBar/AccountButton";
 
 
 const PrimaryAppBar = () => {
@@ -87,6 +88,8 @@ const PrimaryAppBar = () => {
             DJCHAT
           </Typography>
         </Link>
+          <Box sx={{ flexGrow: 1}}></Box>
+          <AccountButton />
       </Toolbar>
     </AppBar>
   )

@@ -125,9 +125,7 @@ const PopularChannels: React.FC<Props> = ({ open }) => {
                   }
                 }}
               />
-              {/* </ListItemText> */}
             </ListItemButton>
-            {/* {item.name} */}
           </Link>
 
         </ListItem>
