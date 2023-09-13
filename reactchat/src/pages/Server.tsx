@@ -30,15 +30,21 @@ const Server = () => {
     fetchData()
   }, [])
 
-  // const isChannel = (): Boolean => {
-  //   if (!channelId) {
-  //     return true;
-  //   }
+  const isChannel = (): Boolean => {
+    if (!channelId) {
+      return true;
+    }
 
-  //   return dataCRUD.some((server) => server.channel_server.some(
-  //     (channel: any) => channel.id === parseInt(channelId)
-  //   ))
-  // }
+    return dataCRUD.some((server) => server.channel_server.some(
+      (channel: any) => channel.id === parseInt(channelId)
+    ))
+  }
+
+  useEffect(() => {
+    if(!isChannel()) {
+      navigate(`/server/${serverId}`)
+    }
+  }, [isChannel, channelId])
 
   return (
     <>
@@ -51,7 +57,7 @@ const Server = () => {
           <UserServers open={false} data={dataCRUD}/>
         </PrimaryDraw>
         <SecondaryDraw>
-          <ServerChannels />
+          <ServerChannels data={dataCRUD}/>
         </SecondaryDraw>
         <Main>
           <MessageInterface />

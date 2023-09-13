@@ -88,7 +88,7 @@ class Channel(models.Model):
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="channel_owner"
     )
-    topic: models.CharField(max_length=100)
+    topic = models.CharField(max_length=100, default=None)
     server = models.ForeignKey(
         Server, on_delete=models.CASCADE, related_name="channel_server"
     )
