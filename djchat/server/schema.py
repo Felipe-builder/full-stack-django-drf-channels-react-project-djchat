@@ -10,13 +10,13 @@ server_list_docs = extend_schema(
             name="category",
             type=OpenApiTypes.STR,
             location=OpenApiParameter.QUERY,
-            description="Category of servers to retrive",
+            description="Category of servers to retrieve",
         ),
         OpenApiParameter(
             name="qty",
             type=OpenApiTypes.INT,
             location=OpenApiParameter.QUERY,
-            description="Number of servers to retrive",
+            description="Number of servers to retrieve",
         ),
         OpenApiParameter(
             name="by_user",
@@ -34,7 +34,7 @@ server_list_docs = extend_schema(
             name="by_serverid",
             type=OpenApiTypes.INT,
             location=OpenApiParameter.QUERY,
-            description="include server by id",
+            description="Include server by id",
         ),
     ],
 )
