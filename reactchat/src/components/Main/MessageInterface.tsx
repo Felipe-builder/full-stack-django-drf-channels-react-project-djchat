@@ -16,7 +16,7 @@ const MessageInterface = () => {
   const { serverId, channelId } = useParams();
   const { fetchData } = useCrud<Server>(
     [],
-    `/messages/?channel_id=${channelId}`
+    `messages/?channel_id=${channelId}`
   );
 
   const socketUrl = channelId
