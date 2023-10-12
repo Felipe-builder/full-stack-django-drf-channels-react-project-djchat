@@ -5,6 +5,8 @@ import { Server } from "../../@types/server";
 import { useParams } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
 
+import MessageInterfaceChannels from './MessageInterfaceChannels';
+
 interface ServerChannelProps {
   data: Server[]
 }
@@ -20,7 +22,7 @@ const MessageInterface = (props: ServerChannelProps) => {
   const [newMessage, setNewMessage] = useState<Message[]>([]);
   const [ message, setMessage ] = useState('');
   const { serverId, channelId } = useParams();
-  const server_name = data?.[0].name ?? "Server";
+  const server_name = data?.[0]?.name ?? "Server";
   const { fetchData } = useCrud<Server>(
     [],
     `messages/?channel_id=${channelId}`
@@ -55,6 +57,7 @@ const MessageInterface = (props: ServerChannelProps) => {
 
   return (
     <>
+      <MessageInterfaceChannels data={data}/>
       {
         channelId === undefined ? (
           <Box
