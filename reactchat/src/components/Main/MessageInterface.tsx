@@ -1,34 +1,58 @@
 import { useState } from "react";
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
-const socketUrl = "ws://127.0.0.1:8000/ws/test";
+import useCrud from "../../hooks/useCrud";
+import { Server } from "../../@types/server";
+import { useParams } from "react-router-dom";
 
+interface Message {
+  sender: string;
+  content: string;
+  timestamp: string;
+}
 
 const MessageInterface = () => {
-  const [ newMessage, setNewMessage ] = useState<string[]>([]);
+  const [newMessage, setNewMessage] = useState<Message[]>([]);
   const [ message, setMessage ] = useState('');
+  const { serverId, channelId } = useParams();
+  const { fetchData } = useCrud<Server>(
+    [],
+    `/messages/?channel_id=${channelId}`
+  );
+
+  const socketUrl = channelId
+  ? `ws://127.0.0.1:8000/${serverId}/${channelId}`
+  : null;
 
   const { sendJsonMessage } = useWebSocket(socketUrl, {
-    onOpen: () => {
-      console.log('Connected!')
+    onOpen: async () => {
+      try {
+        const data = await fetchData();
+        setNewMessage([]);
+        setNewMessage(Array.isArray(data) ? data : []);
+        console.log("Connected!!!");
+      } catch (error) {
+        console.log(error);
+      }
     },
     onClose: () => {
-      console.log('Closed!')
+      console.log("Closed!");
     },
     onError: () => {
-      console.log('Error!')
+      console.log("Error!");
     },
     onMessage: (msg) => {
-      const data = JSON.parse(msg.data)
-      setNewMessage((prev_msg) => [...prev_msg, data.new_message])
-    }
-  })
+      const data = JSON.parse(msg.data);
+      setNewMessage((prev_msg) => [...prev_msg, data.new_message]);
+    },
+  });
 
   return (
     <div>
-      {newMessage.map((msg, index) => {
+      {newMessage.map((msg: Message, index: number) => {
         return (
           <div key={index}>
-            <p>{msg}</p>
+            <p>{msg.sender}</p>
+            <p>{msg.content}</p>
           </div>
         );
       })}
@@ -44,13 +68,13 @@ const MessageInterface = () => {
       </form>
       <button
         onClick={() => {
-          sendJsonMessage({type: "message", message})
+          sendJsonMessage({ type: "message", message });
         }}
       >
         Send Message
       </button>
     </div>
-  )
+  );
 }
 
 export default MessageInterface;

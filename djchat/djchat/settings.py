@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     # Internal
     "account",
     "server",
+    "djchat",
+    "webchat",
 ]
 
 MIDDLEWARE = [

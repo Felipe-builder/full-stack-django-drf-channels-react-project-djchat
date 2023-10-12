@@ -1,4 +1,12 @@
-import { Box, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, Typography, useTheme } from "@mui/material";
+import { 
+  Box,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Typography,
+  useTheme
+} from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import { Server } from "../../@types/server";
 

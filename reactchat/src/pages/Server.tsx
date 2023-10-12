@@ -8,10 +8,11 @@ import ServerChannels from "../components/SecondaryDraw/ServerChannels";
 import UserServers from "../components/PrimaryDraw/UserServers";
 import { useNavigate, useParams } from "react-router-dom";
 import useCrud from "../hooks/useCrud";
-import { Server } from '../@types/server'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Server } from "../@types/server";
 
 const Server = () => {
+
   const navigate = useNavigate();
   const { serverId, channelId } = useParams();
 
