@@ -3,6 +3,11 @@ import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 import useCrud from "../../hooks/useCrud";
 import { Server } from "../../@types/server";
 import { useParams } from "react-router-dom";
+import { Box, Typography } from "@mui/material";
+
+interface ServerChannelProps {
+  data: Server[]
+}
 
 interface Message {
   sender: string;
@@ -10,10 +15,12 @@ interface Message {
   timestamp: string;
 }
 
-const MessageInterface = () => {
+const MessageInterface = (props: ServerChannelProps) => {
+  const { data } = props;
   const [newMessage, setNewMessage] = useState<Message[]>([]);
   const [ message, setMessage ] = useState('');
   const { serverId, channelId } = useParams();
+  const server_name = data?.[0].name ?? "Server";
   const { fetchData } = useCrud<Server>(
     [],
     `messages/?channel_id=${channelId}`
@@ -47,33 +54,70 @@ const MessageInterface = () => {
   });
 
   return (
-    <div>
-      {newMessage.map((msg: Message, index: number) => {
-        return (
-          <div key={index}>
-            <p>{msg.sender}</p>
-            <p>{msg.content}</p>
-          </div>
-        );
-      })}
-      <form>
-        <label>
-          Enter Message:
-          <input
-            type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-        </label>
-      </form>
-      <button
-        onClick={() => {
-          sendJsonMessage({ type: "message", message });
-        }}
-      >
-        Send Message
-      </button>
-    </div>
+    <>
+      {
+        channelId === undefined ? (
+          <Box
+            sx={{
+              overflow: "hidden", 
+              p: { xs: 0 },
+              height: `calc(80vh)`,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Box
+              sx={{
+                textAlign: 'center'
+              }}
+            >
+              <Typography
+                variant="h4"
+                fontWeight={700}
+                letterSpacing={"-0.5px"}
+                sx={{ px: 5, maxWidth: '600px'}}
+              >
+                Welcome to {server_name}
+              </Typography>
+              <Typography>
+                {data?.[0]?.description ?? "this is our home"}
+              </Typography>
+            </Box>
+          </Box>
+        ): (
+          <>
+            <div>
+              {newMessage.map((msg: Message, index: number) => {
+                return (
+                  <div key={index}>
+                    <p>{msg.sender}</p>
+                    <p>{msg.content}</p>
+                  </div>
+                );
+              })}
+              <form>
+                <label>
+                  Enter Message:
+                  <input
+                    type="text"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                  />
+                </label>
+              </form>
+              <button
+                onClick={() => {
+                  sendJsonMessage({ type: "message", message });
+                }}
+              >
+                Send Message
+              </button>
+            </div>
+          </>
+        ) 
+      }
+    </>
   );
 }
 
