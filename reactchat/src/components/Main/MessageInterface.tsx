@@ -3,9 +3,17 @@ import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 import useCrud from "../../hooks/useCrud";
 import { Server } from "../../@types/server";
 import { useParams } from "react-router-dom";
-import { Avatar, Box, List, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
+import { Avatar, Box, List, ListItem, ListItemAvatar, ListItemText, TextField, Typography } from "@mui/material";
 
 import MessageInterfaceChannels from './MessageInterfaceChannels';
+import { useTheme } from "@mui/material";
+
+
+interface SendMessageData {
+  type: string;
+  message: string;
+  [key: string]: any;
+}
 
 interface ServerChannelProps {
   data: Server[]
@@ -19,6 +27,7 @@ interface Message {
 
 const MessageInterface = (props: ServerChannelProps) => {
   const { data } = props;
+  const theme = useTheme();
   const [newMessage, setNewMessage] = useState<Message[]>([]);
   const [message, setMessage] = useState('');
   const { serverId, channelId } = useParams();
@@ -52,8 +61,28 @@ const MessageInterface = (props: ServerChannelProps) => {
     onMessage: (msg) => {
       const data = JSON.parse(msg.data);
       setNewMessage((prev_msg) => [...prev_msg, data.new_message]);
+      setMessage("");
     },
   });
+
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      sendJsonMessage({
+        type: "message",
+        message,
+      } as SendMessageData)
+    }
+  }
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    sendJsonMessage({
+      type: "message",
+      message,
+    } as SendMessageData)
+  }
 
   return (
     <>
@@ -146,34 +175,44 @@ const MessageInterface = (props: ServerChannelProps) => {
               </List>
 
             </Box>
-
-            {/* <div>
-              {newMessage.map((msg: Message, index: number) => {
-                return (
-                  <div key={index}>
-                    <p>{msg.sender}</p>
-                    <p>{msg.content}</p>
-                  </div>
-                );
-              })}
-              <form>
-                <label>
-                  Enter Message:
-                  <input
-                    type="text"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                  />
-                </label>
-              </form>
-              <button
-                onClick={() => {
-                  sendJsonMessage({ type: "message", message });
+            <Box sx={{
+              position: "sticky",
+              bottom: 0,
+              width: "100%"
+            }}>
+              <form
+                onSubmit={handleSubmit}
+                style={{
+                  bottom: 0,
+                  right: 0,
+                  padding: "1rem",
+                  backgroundColor: theme.palette.background.default,
+                  zIndex: 1
                 }}
               >
-                Send Message
-              </button>
-            </div> */}
+                <Box
+                  sx={{
+                    display: "flex"
+                  }}
+                >
+                  <TextField
+                    fullWidth
+                    multiline
+                    value={message}
+                    minRows={1}
+                    maxRows={4}
+                    onKeyDown={handleKeyDown}
+                    onChange={(e) => setMessage(e.target.value)}
+                    sx={{
+                      flexGrow: 1
+                    }}
+                  />
+
+                </Box>
+
+
+              </form>
+            </Box>
           </>
         )
       }
